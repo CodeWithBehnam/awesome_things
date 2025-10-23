@@ -1,0 +1,43 @@
+---
+name: "Global Project Rules"
+description: "General coding standards and best practices for this project"
+pattern: "**/*"
+---
+
+# Global Project Rules
+
+## Code Quality Standards
+
+- Write clean, readable, and maintainable code
+- Use meaningful variable and function names
+- Add comments for complex logic
+- Follow the DRY (Don't Repeat Yourself) principle
+- Keep functions small and focused on a single responsibility
+
+## Error Handling
+
+- Always handle errors gracefully
+- Use try-catch blocks for operations that might fail
+- Provide meaningful error messages
+- Log errors appropriately for debugging
+
+## Documentation
+
+- Write clear docstrings for functions and classes
+- Update README files when adding new features
+- Document API endpoints and their parameters
+- Keep documentation up to date with code changes
+
+## Testing
+
+- Write unit tests for new functionality
+- Aim for good test coverage
+- Use descriptive test names
+- Test both happy path and edge cases
+
+## Security
+
+- Never commit sensitive information (API keys, passwords, etc.)
+- Validate all user inputs
+- Use environment variables for configuration
+- Follow security best practices for your tech stack
