@@ -94,5 +94,6 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-# Cursor specific
-.cursor/
+# Cursor specific (but allow .cursor/ folder)
+.cursor/*
+!.cursor/
