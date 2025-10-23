@@ -21,7 +21,14 @@ This is the most important subdirectory where you can place rule files:
 - **`.cursorindexingignore`** - Excludes files from indexing only (but keeps them accessible to AI)
 - **Custom configuration files** for project-specific settings
 
-### 3. Example Structure
+### 3. Commands Directory (`.cursor/commands/`)
+Custom slash commands for your project:
+
+- **`.md` files** - Markdown files defining custom commands
+- **Slash commands** - Type `/` in chat to see available commands
+- **Project-specific workflows** - Tailored to your development process
+
+### 4. Example Structure
 ```
 .cursor/
 ├── rules/
@@ -30,8 +37,13 @@ This is the most important subdirectory where you can place rule files:
 │   ├── fastapi.mdc         # FastAPI framework rules
 │   ├── react.mdc           # React component rules
 │   └── testing.mdc         # Testing guidelines
+├── commands/
+│   ├── review-code.md      # /review-code command
+│   ├── write-tests.md      # /write-tests command
+│   ├── security-audit.md   # /security-audit command
+│   └── create-pr.md        # /create-pr command
 ├── .cursorignore           # Files to ignore from indexing
-└── .cursorindexingignore   # Files to exclude from indexing only
+└── .cursorindexingignore     # Files to exclude from indexing only
 ```
 
 ## Rule File Format (.mdc files)
@@ -70,6 +82,85 @@ pattern: "src/components/**/*.{ts,tsx}"
 - Keep components small and focused
 - Use custom hooks for shared logic
 ```
+
+## Commands Directory (`.cursor/commands/`)
+
+The commands directory allows you to create **custom slash commands** that appear when you type `/` in the Cursor chat interface.
+
+### How Commands Work
+
+1. **Create the directory**: `.cursor/commands/`
+2. **Add `.md` files** with descriptive names
+3. **Write plain Markdown** describing what the command should do
+4. **Commands automatically appear** when you type `/` in chat
+
+### Command File Format
+
+Each command file contains:
+- **Plain Markdown content** describing what the command should do
+- **No special syntax** required
+- **Descriptive names** for the files (without the `.md` extension, this becomes the command name)
+
+### Example Command Files
+
+#### `review-code.md`
+```markdown
+# Code Review Command
+
+Perform a comprehensive code review of the current changes:
+
+1. Check for code quality issues
+2. Verify best practices are followed
+3. Look for potential bugs or security issues
+4. Suggest improvements
+5. Ensure proper error handling
+6. Check for performance optimizations
+```
+
+#### `write-tests.md`
+```markdown
+# Write Tests Command
+
+Generate comprehensive unit tests for the current code:
+
+1. Analyze the code structure
+2. Identify testable functions and methods
+3. Create test cases for normal scenarios
+4. Add edge case testing
+5. Include error condition tests
+6. Ensure proper test coverage
+```
+
+#### `security-audit.md`
+```markdown
+# Security Audit Command
+
+Perform a security review of the codebase:
+
+1. Check for common security vulnerabilities
+2. Review authentication and authorization
+3. Analyze input validation
+4. Check for SQL injection risks
+5. Review file upload security
+6. Verify secure coding practices
+```
+
+### Popular Command Categories
+
+- **Code Review**: `review-code.md`, `light-review.md`
+- **Testing**: `write-tests.md`, `run-tests.md`
+- **Documentation**: `add-documentation.md`, `generate-api-docs.md`
+- **Security**: `security-audit.md`, `security-review.md`
+- **Git/PR**: `create-pr.md`, `address-github-pr-comments.md`
+- **Development**: `setup-new-feature.md`, `onboard-new-developer.md`
+- **Debugging**: `debug-issue.md`, `fix-compile-errors.md`
+
+### How to Use Commands
+
+1. **Type `/`** in the Cursor chat
+2. **See available commands** in the dropdown
+3. **Select a command** to execute it
+4. **The AI will follow** the instructions in the markdown file
 
 ## Key Benefits of Using .cursor Folder
 
@@ -150,9 +241,10 @@ README.md
 
 ## Getting Started
 
-1. **Create the .cursor folder:**
+1. **Create the .cursor folder structure:**
    ```bash
    mkdir -p .cursor/rules
+   mkdir -p .cursor/commands
    ```
 
 2. **Add your first rule file:**
@@ -160,12 +252,17 @@ README.md
    touch .cursor/rules/global.mdc
    ```
 
-3. **Configure ignore files:**
+3. **Add your first command:**
+   ```bash
+   touch .cursor/commands/review-code.md
+   ```
+
+4. **Configure ignore files:**
    ```bash
    touch .cursor/.cursorignore
    ```
 
-4. **Start with basic rules and expand as needed**
+5. **Start with basic rules and commands, then expand as needed**
 
 ## Resources
 
@@ -177,8 +274,12 @@ README.md
 
 The `.cursor` folder essentially acts as a "brain" for your project, telling Cursor's AI how to behave when working with your specific codebase, tech stack, and coding conventions. It's a powerful way to make Cursor more intelligent and context-aware for your particular project needs.
 
-By properly configuring your `.cursor` folder, you can:
-- Improve AI code generation quality
-- Enforce consistent coding standards
-- Optimize AI responses for your tech stack
-- Enhance team collaboration and code quality
+By properly configuring your `.cursor` folder with rules and commands, you can:
+- **Improve AI code generation quality** through targeted rules
+- **Enforce consistent coding standards** across your team
+- **Optimize AI responses** for your specific tech stack
+- **Create custom workflows** with slash commands
+- **Enhance team collaboration** and code quality
+- **Standardize common tasks** with reusable commands
+
+The combination of rules and commands creates a comprehensive AI assistant toolkit that's tailored to your project's specific needs and development workflow.
