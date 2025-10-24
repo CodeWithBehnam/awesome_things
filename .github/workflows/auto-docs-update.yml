@@ -1,0 +1,103 @@
+name: Automated Documentation Updates
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Every Monday at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'Type of documentation update'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+        - all
+        - links
+        - versions
+        - dependencies
+
+jobs:
+  update-docs:
+    name: Update Documentation
+    runs-on: ubuntu-latest
+    if: github.repository == 'CodeWithBehnam/awesome_things'
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          
+      - name: Install UV
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          
+      - name: Update Badge Timestamps
+        run: |
+          echo "Updating badge timestamps..."
+          # Update any timestamp badges in README
+          sed -i 's/badge\/Last%20updated-[^)]*/badge\/Last%20updated-$(date +%Y--%m--%d)/g' README.md || true
+          
+      - name: Check for Broken External Links
+        run: |
+          echo "Checking external links..."
+          # Check links to external resources
+          for url in $(grep -o 'https://[^)]*' README.md | grep -v github.com); do
+            if curl -s --head "$url" | head -n 1 | grep -q "200 OK"; then
+              echo "✅ $url is accessible"
+            else
+              echo "❌ $url is broken"
+            fi
+          done
+          
+      - name: Update Version Information
+        run: |
+          echo "Checking for version updates..."
+          # Check if UV version is latest
+          latest_uv=$(curl -s https://api.github.com/repos/astral-sh/uv/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
+          echo "Latest UV version: $latest_uv"
+          
+      - name: Commit Changes
+        if: github.event_name == 'schedule'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          if git diff --quiet; then
+            echo "No changes to commit"
+          else
+            git add .
+            git commit -m "docs: automated documentation update [skip ci]"
+            git push
+          fi
+          
+      - name: Create Issue for Manual Updates
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Documentation Update Required';
+            const body = `
+            The automated documentation update failed. Please review and update:
+            
+            - Check for broken external links
+            - Update version information
+            - Review and update content as needed
+            
+            **Update Type**: ${{ inputs.update_type || 'all' }}
+            **Workflow Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            `;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['documentation', 'automation']
+            });

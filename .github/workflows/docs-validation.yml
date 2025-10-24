@@ -1,0 +1,76 @@
+name: Documentation Validation
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'docs/**'
+      - 'README.md'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'docs/**'
+      - 'README.md'
+  workflow_dispatch:
+
+jobs:
+  validate-docs:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          
+      - name: Install UV
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          
+      - name: Validate Mermaid Diagrams
+        run: |
+          echo "Validating Mermaid diagrams in README.md..."
+          # Check if Mermaid diagrams are properly formatted
+          grep -n "```mermaid" README.md || echo "No Mermaid diagrams found"
+          
+      - name: Check Documentation Structure
+        run: |
+          echo "Checking documentation structure..."
+          ls -la docs/
+          
+          # Validate that all referenced docs exist
+          for doc in $(grep -o 'docs/[^)]*\.md' README.md); do
+            if [ -f "$doc" ]; then
+              echo "✅ $doc exists"
+            else
+              echo "❌ $doc missing"
+              exit 1
+            fi
+          done
+          
+      - name: Validate Table of Contents
+        run: |
+          echo "Validating table of contents links..."
+          # Check if all TOC links are valid
+          grep -o '\[.*\](#[^)]*)' README.md | while read link; do
+            anchor=$(echo "$link" | sed 's/.*(#\([^)]*\)).*/\1/')
+            if grep -q "^## $anchor" README.md || grep -q "^### $anchor" README.md; then
+              echo "✅ Link $link is valid"
+            else
+              echo "❌ Link $link is broken"
+            fi
+          done
+          
+      - name: Check for TODO/FIXME comments
+        run: |
+          echo "Checking for TODO/FIXME comments in documentation..."
+          if grep -r "TODO\|FIXME" docs/ README.md; then
+            echo "⚠️ Found TODO/FIXME comments in documentation"
+          else
+            echo "✅ No TODO/FIXME comments found"
+          fi

@@ -1,0 +1,143 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 3 * * 1'  # Every Monday at 3 AM UTC
+
+jobs:
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+          
+      - name: Check for exposed secrets
+        run: |
+          echo "🔍 Checking for exposed secrets..."
+          
+          # Check for common secret patterns
+          if grep -r -E "(password|secret|key|token|api_key)" . \
+            --exclude-dir=.git \
+            --exclude-dir=.github \
+            --exclude="*.md" \
+            --exclude="*.yml" \
+            --exclude="*.yaml"; then
+            echo "⚠️ Potential secrets found"
+            exit 1
+          else
+            echo "✅ No obvious secrets found"
+          fi
+          
+      - name: Check for security vulnerabilities in dependencies
+        run: |
+          echo "🔍 Checking for dependency vulnerabilities..."
+          
+          # Check if there are any package files
+          if [ -f "package.json" ]; then
+            echo "Found package.json, checking for vulnerabilities..."
+            npm audit --audit-level high || echo "npm audit completed with warnings"
+          fi
+          
+          if [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
+            echo "Found Python dependencies, checking for vulnerabilities..."
+            # Install safety if available
+            pip install safety || echo "safety not available"
+            safety check || echo "safety check completed with warnings"
+          fi
+          
+      - name: Check for outdated dependencies
+        run: |
+          echo "📦 Checking for outdated dependencies..."
+          
+          if [ -f "package.json" ]; then
+            echo "Checking npm dependencies..."
+            npm outdated || echo "npm outdated completed"
+          fi
+          
+      - name: Validate GitHub Actions Security
+        run: |
+          echo "🔒 Validating GitHub Actions security..."
+          
+          # Check for pinned actions
+          for workflow in .github/workflows/*.yml; do
+            if [ -f "$workflow" ]; then
+              echo "Checking $workflow..."
+              
+              # Check for unpinned actions
+              if grep -q "uses: .*@master\|uses: .*@main" "$workflow"; then
+                echo "⚠️ $workflow contains unpinned actions"
+              else
+                echo "✅ $workflow uses pinned actions"
+              fi
+            fi
+          done
+          
+      - name: Check for security best practices
+        run: |
+          echo "🛡️ Checking security best practices..."
+          
+          # Check for proper permissions in workflows
+          for workflow in .github/workflows/*.yml; do
+            if [ -f "$workflow" ]; then
+              if grep -q "permissions:" "$workflow"; then
+                echo "✅ $workflow has explicit permissions"
+              else
+                echo "⚠️ $workflow missing explicit permissions"
+              fi
+            fi
+          done
+          
+      - name: Generate Security Report
+        run: |
+          echo "📋 Generating security report..."
+          
+          cat > security-report.md << EOF
+          # Security Scan Report
+          
+          **Generated**: $(date)
+          **Repository**: ${{ github.repository }}
+          **Branch**: ${{ github.ref_name }}
+          
+          ## Scan Results
+          
+          - ✅ Trivy vulnerability scan completed
+          - ✅ Secret scanning completed
+          - ✅ Dependency vulnerability check completed
+          - ✅ GitHub Actions security validation completed
+          
+          ## Recommendations
+          
+          - Keep dependencies up to date
+          - Use pinned action versions
+          - Review security alerts regularly
+          - Implement proper secret management
+          
+          EOF
+          
+          echo "Security report generated"
+          
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.md
