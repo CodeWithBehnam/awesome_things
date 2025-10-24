@@ -36,18 +36,18 @@ jobs:
         run: |
           echo "Validating Mermaid diagrams in documentation..."
           # Check if Mermaid diagrams are properly formatted
-          if grep -q "```mermaid" README.md; then
+          if grep -q '```mermaid' README.md; then
             echo "Found Mermaid diagrams in README.md"
-            grep -n "```mermaid" README.md
+            grep -n '```mermaid' README.md
           else
             echo "No Mermaid diagrams found in README.md"
           fi
           
           # Check docs folder for Mermaid diagrams
           if [ -d "docs" ]; then
-            if find docs -name "*.md" -exec grep -l "```mermaid" {} \; 2>/dev/null; then
+            if find docs -name "*.md" -exec grep -l '```mermaid' {} \; 2>/dev/null; then
               echo "Found Mermaid diagrams in docs folder"
-              find docs -name "*.md" -exec grep -n "```mermaid" {} \;
+              find docs -name "*.md" -exec grep -n '```mermaid' {} \;
             else
               echo "No Mermaid diagrams found in docs folder"
             fi
