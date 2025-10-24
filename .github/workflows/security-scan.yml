@@ -39,22 +39,62 @@ jobs:
         run: |
           echo "🔍 Checking for exposed secrets..."
           
-          # Check for common secret patterns
+          # Check for common secret patterns in source code only
+          # Exclude documentation, configuration, and dependency files
           if grep -r -E "(password|secret|key|token|api_key)" . \
             --exclude-dir=.git \
             --exclude-dir=.github \
             --exclude-dir=node_modules \
             --exclude-dir=.cache \
             --exclude-dir=.cursor \
+            --exclude-dir=vendor \
+            --exclude-dir=dist \
+            --exclude-dir=build \
             --exclude="*.md" \
             --exclude="*.mdc" \
             --exclude="*.yml" \
             --exclude="*.yaml" \
             --exclude="*.json" \
             --exclude="*.lock" \
-            --binary-files=without-match; then
-            echo "⚠️ Potential secrets found"
-            exit 1
+            --exclude="package-lock.json" \
+            --exclude="yarn.lock" \
+            --exclude="pnpm-lock.yaml" \
+            --exclude="Gemfile.lock" \
+            --exclude="poetry.lock" \
+            --exclude="uv.lock" \
+            --binary-files=without-match 2>/dev/null | grep -v "path-key" || true; then
+            
+            # Filter out known false positives
+            RESULTS=$(grep -r -E "(password|secret|key|token|api_key)" . \
+              --exclude-dir=.git \
+              --exclude-dir=.github \
+              --exclude-dir=node_modules \
+              --exclude-dir=.cache \
+              --exclude-dir=.cursor \
+              --exclude-dir=vendor \
+              --exclude-dir=dist \
+              --exclude-dir=build \
+              --exclude="*.md" \
+              --exclude="*.mdc" \
+              --exclude="*.yml" \
+              --exclude="*.yaml" \
+              --exclude="*.json" \
+              --exclude="*.lock" \
+              --exclude="package-lock.json" \
+              --exclude="yarn.lock" \
+              --exclude="pnpm-lock.yaml" \
+              --exclude="Gemfile.lock" \
+              --exclude="poetry.lock" \
+              --exclude="uv.lock" \
+              --binary-files=without-match 2>/dev/null | grep -v "path-key" | grep -v "secrets.GITHUB_TOKEN" | grep -v "Never commit sensitive" | grep -v "Implement proper secrets" || true)
+            
+            if [ -n "$RESULTS" ]; then
+              echo "$RESULTS"
+              echo "⚠️ Potential secrets found"
+              exit 1
+            else
+              echo "✅ No obvious secrets found"
+            fi
           else
             echo "✅ No obvious secrets found"
           fi
