@@ -15,7 +15,7 @@ flowchart TD
     E --> F[Encrypted Storage]
     
     G[GitHub Actions Workflow] --> H[Reference Secret]
-    H --> I[${{ secrets.SECRET_NAME }}]
+    H --> I["secrets.SECRET_NAME"]
     I --> J[Decrypted at Runtime]
     J --> K[Available to Workflow]
     
