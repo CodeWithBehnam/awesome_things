@@ -7,8 +7,10 @@ Automatically research and generate comprehensive documentation using Ref MCP an
 When I use this command, follow these steps:
 
 1. **Research Phase**
-   - Use Ref MCP to search for official documentation and resources
-   - Use Exa MCP to find code examples and implementation details
+   - Use `ref_search_documentation` to search for official documentation and resources
+   - Use `ref_read_url` to read full content from documentation URLs
+   - Use `web_search_exa` for general web search with content extraction
+   - Use `get_code_context_exa` to find code examples and implementation details
    - Gather comprehensive information from multiple sources
 
 2. **Analysis Phase**
@@ -49,11 +51,40 @@ Create documentation with:
 - Ensure all links are valid and accessible
 - Follow markdown best practices
 
+## Available MCP Tools
+
+### Ref MCP Tools
+- **`ref_search_documentation`** - Search across indexed documentation resources
+  - Parameters: `query` (string) - Include programming language, framework, or library names
+  - Best for: Official documentation, API references, framework guides
+
+- **`ref_read_url`** - Read full content of documentation URLs
+  - Parameters: `url` (string) - Exact URL from search results or any web URL
+  - Best for: Detailed documentation pages, specific guides, tutorials
+
+### Exa MCP Tools
+- **`web_search_exa`** - General web search with content extraction
+  - Parameters: `query` (string), `numResults` (number, default: 5)
+  - Best for: Current information, recent examples, real-time data
+
+- **`get_code_context_exa`** - Find code examples and implementation details
+  - Parameters: `query` (string), `tokensNum` (number or "dynamic")
+  - Best for: Code examples, implementation patterns, technical context
+
+- **`research_paper_search`** - Academic papers and research content
+- **`company_research`** - Company analysis and business intelligence
+- **`crawling`** - Extract content from specific URLs
+- **`competitor_finder`** - Find business competitors
+- **`linkedin_search`** - Search LinkedIn profiles and companies
+- **`wikipedia_search_exa`** - Wikipedia content retrieval
+- **`github_search`** - Repository and code search
+
 ## Research Guidelines
 
-- Search for official documentation first
-- Look for recent examples and implementations
-- Include multiple perspectives and approaches
-- Verify information accuracy
-- Focus on practical, actionable content
-- Include both beginner and advanced topics when relevant
+- **Start with Ref MCP** for official documentation and authoritative sources
+- **Use Exa MCP** for current examples, real-time information, and code context
+- **Combine multiple tools** for comprehensive coverage
+- **Verify information accuracy** across different sources
+- **Focus on practical, actionable content**
+- **Include both beginner and advanced topics** when relevant
+- **Prioritize recent and up-to-date information**
