@@ -147,7 +147,52 @@ CMD ["python", "-m", "your_app"]
 
 ## Security Best Practices
 
-### 1. Non-Root User
+### 1. Secrets Management
+Never hardcode secrets in Dockerfiles or workflow files:
+
+```dockerfile
+# ❌ NEVER DO THIS
+ENV API_KEY=sk-1234567890abcdef
+ENV DATABASE_PASSWORD=mysecretpassword
+
+# ✅ CORRECT APPROACH
+# Use environment variables passed at runtime
+ENV API_KEY=${API_KEY}
+ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
+```
+
+**GitHub Actions Secrets Usage:**
+```yaml
+# ✅ CORRECT - Use GitHub Secrets
+env:
+  API_KEY: ${{ secrets.API_KEY }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+# ❌ NEVER - Hardcoded values
+env:
+  API_KEY: "sk-1234567890abcdef"
+```
+
+**Docker Compose with Secrets:**
+```yaml
+services:
+  app:
+    environment:
+      - API_KEY=${API_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+    # Use external secrets file
+    secrets:
+      - api_key
+      - db_password
+
+secrets:
+  api_key:
+    external: true
+  db_password:
+    external: true
+```
+
+### 2. Non-Root User
 Always create and use non-root users:
 
 ```dockerfile
@@ -156,7 +201,7 @@ RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 ```
 
-### 2. Minimal Base Images
+### 3. Minimal Base Images
 Use minimal base images for production:
 
 ```dockerfile
@@ -164,7 +209,7 @@ Use minimal base images for production:
 FROM gcr.io/distroless/python3-debian11
 ```
 
-### 3. Security Scanning
+### 4. Security Scanning
 Include security scanning in build process:
 
 ```dockerfile
@@ -299,6 +344,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          # Note: GITHUB_TOKEN is automatically provided by GitHub Actions
+          # For other registries, use custom secrets like ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -420,7 +467,8 @@ CMD ["python", "-m", "src.ml_service"]
 - Always use non-root users
 - Scan for vulnerabilities
 - Use minimal base images
-- Implement proper secrets management
+- Implement proper secrets management using GitHub Secrets or external secret stores
+- Never hardcode sensitive information in Dockerfiles or workflow files
 
 ### 3. Performance Standards
 - Optimize layer caching

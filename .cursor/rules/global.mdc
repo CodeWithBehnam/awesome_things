@@ -37,7 +37,8 @@ pattern: "**/*"
 
 ## Security
 
-- Never commit sensitive information (API keys, passwords, etc.)
+- Never commit sensitive information (API keys, passwords, etc.) to version control
 - Validate all user inputs
 - Use environment variables for configuration
 - Follow security best practices for your tech stack
+- Store sensitive data in secure environment variables or secret management systems
