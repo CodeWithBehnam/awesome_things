@@ -316,7 +316,7 @@ DATABASE_URL = "postgresql://user:password@host/db"
 ## 📚 References
 
 - [Contributing Guidelines](CONTRIBUTING.md)
-- [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
+- [Pull Request Template](PULL_REQUEST_TEMPLATE.md)
 - [CI/CD Workflow Failure Template](ISSUE_TEMPLATE/ci_cd_failure.md)
 
 ---

@@ -276,10 +276,10 @@ grep '```mermaid'
 
 ## Quick Reference Links
 
-- [Contributing Guidelines](.github/CONTRIBUTING.md)
-- [Repository Rules](.github/RULES.md)
-- [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
-- [CI/CD Issue Template](.github/ISSUE_TEMPLATE/ci_cd_failure.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Repository Rules](RULES.md)
+- [Pull Request Template](PULL_REQUEST_TEMPLATE.md)
+- [CI/CD Issue Template](ISSUE_TEMPLATE/ci_cd_failure.md)
 
 ## Contact
 
