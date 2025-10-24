@@ -1,0 +1,8 @@
+# Ignore third-party dependencies
+node_modules/
+
+# Ignore git directory
+.git/
+
+# Ignore global.md as specified in workflow
+docs/global.md

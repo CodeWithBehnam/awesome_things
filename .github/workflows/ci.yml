@@ -31,11 +31,7 @@ jobs:
         run: npm ci
         
       - name: Run markdownlint
-        run: npx markdownlint "**/*.md" \
-          --ignore node_modules \
-          --ignore .git \
-          --ignore docs/global.md \
-          --config .markdownlint.json
+        run: npx markdownlint "**/*.md" --config .markdownlint.json
             
       - name: Check for broken links
         uses: gaurav-nelson/github-action-markdown-link-check@v1
