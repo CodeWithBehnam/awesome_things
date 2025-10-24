@@ -27,7 +27,7 @@ assignees: ''
 
 - `docs/`
 - `README.md`
-- `.github/CONTRIBUTING.md`
+- `../CONTRIBUTING.md`
 - Other: 
 
 ## Current State

@@ -93,7 +93,7 @@ Relates to #(issue number)
 
 **By submitting this PR, I confirm that:**
 
-- I have read and followed the [Contributing Guidelines](.github/CONTRIBUTING.md)
+- I have read and followed the [Contributing Guidelines](CONTRIBUTING.md)
 - My changes do not introduce security vulnerabilities
 - All tests pass locally before pushing
 - Documentation is updated and links are verified

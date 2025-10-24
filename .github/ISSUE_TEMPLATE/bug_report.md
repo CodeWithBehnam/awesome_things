@@ -67,7 +67,7 @@ Workflow Run: <!-- paste link here -->
 
 **For CI/CD Issues:**
 
-- [ ] I have checked the [Contributing Guidelines](.github/CONTRIBUTING.md)
+- [ ] I have checked the [Contributing Guidelines](../CONTRIBUTING.md)
 - [ ] I have reviewed recent successful workflow runs
 - [ ] I have verified all required files exist
 - [ ] I have checked for broken links in documentation
