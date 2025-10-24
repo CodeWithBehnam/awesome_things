@@ -1,0 +1,288 @@
+---
+name: "UV Python Package Manager Rules"
+description: "Best practices and standards for using UV Python package manager"
+pattern: "**/*.py"
+---
+
+# UV Python Package Manager Development Rules
+
+## Project Setup and Initialization
+
+### Always Use UV Commands
+- **NEVER use pip directly** - Always use `uv add`, `uv remove`, `uv sync` instead
+- **Initialize projects with UV**: `uv init project-name` for new projects
+- **Pin Python versions**: `uv python pin 3.12` to specify Python version
+- **Use UV's built-in environment management** instead of manual venv activation
+
+### Project Structure Standards
+- **pyproject.toml** is the single source of truth for dependencies
+- **uv.lock** file should be committed to version control for reproducible builds
+- **Never edit pyproject.toml dependencies directly** - always use `uv add/remove`
+- **Use .venv/ directory** for virtual environments (UV's default)
+
+## Dependency Management
+
+### Adding Dependencies
+```bash
+# Correct way to add dependencies
+uv add requests
+uv add "requests>=2.25.0"  # With version constraints
+uv add --dev pytest ruff mypy  # Development dependencies
+uv add requests flask sqlalchemy  # Multiple packages
+```
+
+### Removing Dependencies
+```bash
+# Correct way to remove dependencies
+uv remove package-name
+uv remove --dev package-name  # Remove dev dependency
+```
+
+### Syncing Dependencies
+```bash
+# Always sync after changes
+uv sync  # Sync from lockfile
+uv sync --upgrade  # Update dependencies
+uv sync --reinstall  # Clean reinstall
+```
+
+## Environment Management
+
+### Use UV's Built-in Commands
+- **Run scripts**: `uv run python script.py` instead of manual activation
+- **Run tools**: `uv run pytest`, `uv run black .`, `uv run ruff check .`
+- **Execute commands**: `uv run python -m module` for module execution
+
+### Python Version Management
+```bash
+# Install specific Python version
+uv python install 3.12
+
+# Pin project to Python version
+uv python pin 3.12
+
+# List available Python versions
+uv python list
+```
+
+## Development Workflow
+
+### Daily Development Commands
+```bash
+# Standard development workflow
+uv sync                    # Sync dependencies
+uv run python main.py     # Run application
+uv run pytest            # Run tests
+uv run black .            # Format code
+uv run ruff check .       # Lint code
+uv run mypy .             # Type checking
+```
+
+### Tool Management
+```bash
+# Install development tools globally
+uv tool install ruff
+uv tool install black
+uv tool install mypy
+
+# Run tools
+uv tool run ruff check .
+uv tool run black .
+uv tool run mypy .
+```
+
+## Code Quality Standards
+
+### Always Include Development Dependencies
+```bash
+# Essential development tools
+uv add --dev pytest black ruff mypy isort
+uv add --dev pre-commit  # For pre-commit hooks
+```
+
+### Project Configuration
+- **Use pyproject.toml** for all project configuration
+- **Include proper metadata** (name, version, description, requires-python)
+- **Define optional dependencies** for development tools
+- **Use modern build system** (hatchling, setuptools)
+
+### Lock File Management
+- **Commit uv.lock** to version control
+- **Use `uv lock`** to update lock file
+- **Never edit uv.lock manually**
+- **Sync lock file** when switching branches
+
+## Performance Best Practices
+
+### Optimize for Speed
+- **Use UV's global cache** - dependencies are cached globally
+- **Keep dependencies minimal** to reduce resolution time
+- **Use lock files** for reproducible builds
+- **Leverage UV's parallel installation** capabilities
+
+### Dependency Optimization
+- **Pin major versions** for stability: `"requests>=2.25.0,<3.0.0"`
+- **Use optional dependencies** for optional features
+- **Group related dependencies** together
+- **Remove unused dependencies** regularly
+
+## Error Handling and Troubleshooting
+
+### Common Issues
+```bash
+# Clear cache if issues occur
+uv cache clean
+
+# Reinstall dependencies
+uv sync --reinstall
+
+# Check dependency tree
+uv tree
+
+# Verify Python version
+uv python find
+```
+
+### Debugging
+- **Use `uv tree`** to visualize dependency tree
+- **Check `uv.lock`** for dependency resolution issues
+- **Verify Python version** with `uv python find`
+- **Clear cache** with `uv cache clean` if needed
+
+## Migration Guidelines
+
+### From pip + virtualenv
+```bash
+# Old way (DON'T DO THIS)
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# New way with UV
+uv venv
+uv sync
+```
+
+### From Poetry
+```bash
+# Old way (DON'T DO THIS)
+poetry install
+poetry run python script.py
+
+# New way with UV
+uv sync
+uv run python script.py
+```
+
+## Advanced Features
+
+### Workspaces
+```bash
+# Create workspace for large projects
+uv init --workspace my-workspace
+uv init --package backend
+uv init --package frontend
+```
+
+### Publishing
+```bash
+# Build and publish packages
+uv build
+uv publish
+```
+
+### Custom Indexes
+```bash
+# Use custom package indexes
+uv add --index-url https://your-registry.com/simple/ package-name
+```
+
+## Security Best Practices
+
+### Dependency Security
+- **Regularly update dependencies** with `uv sync --upgrade`
+- **Use version constraints** to avoid breaking changes
+- **Audit dependencies** for security vulnerabilities
+- **Pin critical dependencies** to specific versions
+
+### Environment Security
+- **Use virtual environments** (UV handles this automatically)
+- **Don't install packages globally** unless using `uv tool install`
+- **Use lock files** for reproducible environments
+- **Regularly clean cache** with `uv cache clean`
+
+## Team Collaboration
+
+### Shared Standards
+- **Use consistent Python versions** across team
+- **Commit uv.lock** to version control
+- **Document setup process** in README
+- **Use same development tools** (black, ruff, mypy, pytest)
+
+### Onboarding New Developers
+```bash
+# New developer setup
+uv sync  # Install all dependencies
+uv run python main.py  # Verify setup works
+uv run pytest  # Run tests
+```
+
+## Code Examples
+
+### Project Initialization
+```bash
+# Create new project
+uv init my-project
+cd my-project
+
+# Pin Python version
+uv python pin 3.12
+
+# Add core dependencies
+uv add requests flask sqlalchemy
+
+# Add development dependencies
+uv add --dev pytest black ruff mypy
+```
+
+### Daily Workflow
+```bash
+# Start development session
+uv sync
+
+# Run application
+uv run python main.py
+
+# Run tests
+uv run pytest
+
+# Format and lint
+uv run black .
+uv run ruff check .
+uv run mypy .
+```
+
+### Adding New Dependencies
+```bash
+# Add new package
+uv add fastapi
+
+# Add with version constraint
+uv add "fastapi>=0.100.0"
+
+# Add development tool
+uv add --dev pre-commit
+```
+
+## Best Practices Summary
+
+1. **Always use UV commands** instead of pip
+2. **Use `uv run`** for all script execution
+3. **Pin Python versions** for consistency
+4. **Commit uv.lock** to version control
+5. **Use development dependencies** for tools
+6. **Keep dependencies minimal** and up-to-date
+7. **Use lock files** for reproducible builds
+8. **Leverage UV's speed** and efficiency
+9. **Follow modern Python packaging** standards
+10. **Document setup process** for team members
