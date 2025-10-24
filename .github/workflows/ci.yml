@@ -43,7 +43,7 @@ jobs:
       - name: Validate Mermaid Diagrams
         run: |
           echo "Validating Mermaid diagrams..."
-          if grep -q "```mermaid" README.md; then
+          if grep -q '```mermaid' README.md; then
             echo "✅ Mermaid diagrams found and validated"
           else
             echo "ℹ️ No Mermaid diagrams found"
