@@ -5,23 +5,27 @@
 ### Documentation
 
 #### Markdown Files
+
 - All markdown files must pass markdownlint validation
 - Links must be valid and not return 404 errors
-- Use triple backticks with single quotes in shell scripts: `'```'` not `"```"`
+- Use triple backticks with single quotes in shell scripts: `'```'` not "```"
 - Always include proper code fence language identifiers
 
 #### Link Management
+
 - **Never** link to non-existent files
 - Before adding links to documentation files, ensure the target file exists
 - Use relative paths for internal documentation
 - Verify external links are working before committing
 
 #### Known Valid URL Patterns
+
 - ✅ Astral UV: `https://docs.astral.sh/uv/`
 - ✅ GitHub Actions: `https://docs.github.com/en/actions/`
 - ✅ VS Code Copilot: `https://code.visualstudio.com/docs/editor/github-copilot`
 
 #### Deprecated URLs to Avoid
+
 - ❌ `https://docs.astral.sh/uv/best-practices/` (Use: `https://docs.astral.sh/uv/`)
 - ❌ `https://docs.astral.sh/uv/guides/production/` (Use: `https://docs.astral.sh/uv/guides/integration/docker/`)
 - ❌ `https://docs.astral.sh/guides/*` (Use: `https://docs.astral.sh/uv/concepts/*` or `https://docs.astral.sh/uv/guides/*`)
