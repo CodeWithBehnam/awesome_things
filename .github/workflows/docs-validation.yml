@@ -34,9 +34,24 @@ jobs:
           
       - name: Validate Mermaid Diagrams
         run: |
-          echo "Validating Mermaid diagrams in README.md..."
+          echo "Validating Mermaid diagrams in documentation..."
           # Check if Mermaid diagrams are properly formatted
-          grep -n "```mermaid" README.md || echo "No Mermaid diagrams found"
+          if grep -q "```mermaid" README.md; then
+            echo "Found Mermaid diagrams in README.md"
+            grep -n "```mermaid" README.md
+          else
+            echo "No Mermaid diagrams found in README.md"
+          fi
+          
+          # Check docs folder for Mermaid diagrams
+          if [ -d "docs" ]; then
+            if find docs -name "*.md" -exec grep -l "```mermaid" {} \; 2>/dev/null; then
+              echo "Found Mermaid diagrams in docs folder"
+              find docs -name "*.md" -exec grep -n "```mermaid" {} \;
+            else
+              echo "No Mermaid diagrams found in docs folder"
+            fi
+          fi
           
       - name: Check Documentation Structure
         run: |
@@ -44,33 +59,45 @@ jobs:
           ls -la docs/
           
           # Validate that all referenced docs exist
-          for doc in $(grep -o "docs/[^)]*\.md" README.md); do
-            if [ -f "$doc" ]; then
-              echo "✅ $doc exists"
-            else
-              echo "❌ $doc missing"
-              exit 1
-            fi
-          done
+          if grep -q "docs/.*\.md" README.md; then
+            for doc in $(grep -o "docs/[^)]*\.md" README.md); do
+              if [ -f "$doc" ]; then
+                echo "✅ $doc exists"
+              else
+                echo "❌ $doc missing"
+                exit 1
+              fi
+            done
+          else
+            echo "No documentation references found"
+          fi
           
       - name: Validate Table of Contents
         run: |
           echo "Validating table of contents links..."
           # Check if all TOC links are valid
-          grep -o '\[.*\](#[^)]*)' README.md | while read -r link; do
-            anchor=$(echo "$link" | sed 's/.*(#\([^)]*\)).*/\1/')
-            if grep -q "^## $anchor" README.md || grep -q "^### $anchor" README.md; then
-              echo "✅ Link $link is valid"
-            else
-              echo "❌ Link $link is broken"
-            fi
-          done
+          if grep -q '\[.*\](#[^)]*)' README.md; then
+            grep -o '\[.*\](#[^)]*)' README.md | while read -r link; do
+              anchor=$(echo "$link" | sed 's/.*(#\([^)]*\)).*/\1/')
+              if grep -q "^## $anchor" README.md || grep -q "^### $anchor" README.md; then
+                echo "✅ Link $link is valid"
+              else
+                echo "❌ Link $link is broken"
+              fi
+            done
+          else
+            echo "No table of contents links found"
+          fi
           
       - name: Check for TODO/FIXME comments
         run: |
           echo "Checking for TODO/FIXME comments in documentation..."
-          if grep -r "TODO\|FIXME" docs/ README.md 2>/dev/null; then
-            echo "⚠️ Found TODO/FIXME comments in documentation"
+          if [ -d "docs" ] && [ -f "README.md" ]; then
+            if grep -r "TODO\|FIXME" docs/ README.md 2>/dev/null; then
+              echo "⚠️ Found TODO/FIXME comments in documentation"
+            else
+              echo "✅ No TODO/FIXME comments found"
+            fi
           else
-            echo "✅ No TODO/FIXME comments found"
+            echo "⚠️ Documentation files not found"
           fi
