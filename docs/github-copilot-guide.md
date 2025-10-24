@@ -789,7 +789,7 @@ Debug this performance issue in the user service:
 ### Official Documentation
 
 - **GitHub Copilot Docs**: [https://docs.github.com/en/copilot](https://docs.github.com/en/copilot)
-- **VS Code Copilot**: [https://code.visualstudio.com/docs/copilot](https://code.visualstudio.com/docs/copilot)
+- **VS Code Copilot**: [https://code.visualstudio.com/docs/editor/github-copilot](https://code.visualstudio.com/docs/editor/github-copilot)
 - **Visual Studio Copilot**: [https://learn.microsoft.com/visualstudio/ide/visual-studio-github-copilot-chat](https://learn.microsoft.com/visualstudio/ide/visual-studio-github-copilot-chat)
 
 ### Community Resources

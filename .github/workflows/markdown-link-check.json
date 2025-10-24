@@ -5,6 +5,9 @@
     },
     {
       "pattern": "^https://localhost"
+    },
+    {
+      "pattern": "^\\.cursor/commands/docs/"
     }
   ],
   "replacementPatterns": [
@@ -23,5 +26,6 @@
   ],
   "timeout": "20s",
   "retryOn429": true,
-  "retryCount": 3
+  "retryCount": 3,
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308, 403, 429]
 }

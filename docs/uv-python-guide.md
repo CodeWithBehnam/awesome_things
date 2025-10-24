@@ -467,9 +467,9 @@ uv add package-name
 - **Official Documentation**: [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 - **GitHub Repository**: [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 - **Installation Guide**: [https://docs.astral.sh/uv/getting-started/installation/](https://docs.astral.sh/uv/getting-started/installation/)
-- **Project Management**: [https://docs.astral.sh/guides/projects/](https://docs.astral.sh/guides/projects/)
-- **Script Execution**: [https://docs.astral.sh/guides/scripts/](https://docs.astral.sh/guides/scripts/)
-- **Python Management**: [https://docs.astral.sh/guides/install-python/](https://docs.astral.sh/guides/install-python/)
+- **Project Management**: [https://docs.astral.sh/uv/concepts/projects/](https://docs.astral.sh/uv/concepts/projects/)
+- **Script Execution**: [https://docs.astral.sh/uv/guides/scripts/](https://docs.astral.sh/uv/guides/scripts/)
+- **Python Management**: [https://docs.astral.sh/uv/concepts/python-versions/](https://docs.astral.sh/uv/concepts/python-versions/)
 
 ## Conclusion
 

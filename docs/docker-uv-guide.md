@@ -904,9 +904,9 @@ CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "ma
 
 ### Learning Resources
 
-- **UV Best Practices**: [https://docs.astral.sh/uv/best-practices/](https://docs.astral.sh/uv/best-practices/)
+- **UV Documentation**: [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 - **Docker Best Practices**: [https://docs.docker.com/develop/dev-best-practices/](https://docs.docker.com/develop/dev-best-practices/)
-- **Python in Production**: [https://docs.astral.sh/uv/guides/production/](https://docs.astral.sh/uv/guides/production/)
+- **UV Docker Integration**: [https://docs.astral.sh/uv/guides/integration/docker/](https://docs.astral.sh/uv/guides/integration/docker/)
 
 ## Conclusion
 

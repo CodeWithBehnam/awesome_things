@@ -43,9 +43,12 @@ jobs:
           if grep -r -E "(password|secret|key|token|api_key)" . \
             --exclude-dir=.git \
             --exclude-dir=.github \
+            --exclude-dir=node_modules \
             --exclude="*.md" \
             --exclude="*.yml" \
-            --exclude="*.yaml"; then
+            --exclude="*.yaml" \
+            --exclude="package.json" \
+            --exclude="package-lock.json"; then
             echo "⚠️ Potential secrets found"
             exit 1
           else

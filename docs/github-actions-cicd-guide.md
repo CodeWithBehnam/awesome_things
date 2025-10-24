@@ -1072,12 +1072,12 @@ jobs:
 
 - **GitHub Actions Marketplace**: [https://github.com/marketplace?type=actions](https://github.com/marketplace?type=actions)
 - **Awesome Actions**: [https://github.com/sdras/awesome-actions](https://github.com/sdras/awesome-actions)
-- **GitHub Actions Cheat Sheet**: [https://github.com/actions/cheat-sheet](https://github.com/actions/cheat-sheet)
+- **GitHub Actions Examples**: [https://github.com/actions/starter-workflows](https://github.com/actions/starter-workflows)
 
 ### Learning Resources
 
 - **GitHub Actions Learning Path**: [https://docs.github.com/en/actions/learn-github-actions](https://docs.github.com/en/actions/learn-github-actions)
-- **Best Practices**: [https://docs.github.com/en/actions/learn-github-actions/best-practices-for-github-actions](https://docs.github.com/en/actions/learn-github-actions/best-practices-for-github-actions)
+- **Best Practices**: [https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-workflows](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-workflows)
 - **Security Hardening**: [https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 
 ## Conclusion
