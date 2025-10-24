@@ -27,12 +27,12 @@ jobs:
           node-version: '18'
           cache: 'npm'
           
-      - name: Install markdownlint-cli
-        run: npm install -g markdownlint-cli
+      - name: Install dependencies
+        run: npm ci
         
       - name: Run markdownlint
         run: |
-          markdownlint "**/*.md" \
+          npx markdownlint "**/*.md" \
             --ignore node_modules \
             --ignore .git \
             --ignore docs/global.md \

@@ -90,7 +90,7 @@ build/
 out/
 
 # Package manager files
-package-lock.json
+# package-lock.json - needed for GitHub Actions npm cache
 yarn.lock
 pnpm-lock.yaml
 
