@@ -628,11 +628,11 @@ docker run -d --name myapp -p 8000:8000 myapp:latest
 
 ## API Documentation
 
-See [API.md](docs/API.md) for detailed API documentation.
+API documentation should be created in `docs/API.md` with detailed endpoint specifications.
 
 ## Deployment
 
-See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment instructions.
+Deployment instructions should be documented in `docs/DEPLOYMENT.md` for production setup.
 ```
 
 ### 2. API Documentation

@@ -1077,7 +1077,7 @@ jobs:
 ### Learning Resources
 
 - **GitHub Actions Learning Path**: [https://docs.github.com/en/actions/learn-github-actions](https://docs.github.com/en/actions/learn-github-actions)
-- **Best Practices**: [https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-workflows](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-workflows)
+- **Best Practices**: [https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions](https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions)
 - **Security Hardening**: [https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 
 ## Conclusion
