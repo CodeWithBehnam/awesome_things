@@ -1,0 +1,455 @@
+---
+name: Docker UV Python Development Standards
+description: Comprehensive development standards for Docker containerization with UV Python package manager
+pattern: "docker.*uv|uv.*docker|container.*python|python.*container"
+scope: "docker,uv,python,containerization"
+---
+
+# Docker UV Python Development Standards
+
+## Core Principles
+
+### 1. Multi-Stage Build Pattern
+Always use multi-stage builds to separate build and runtime environments:
+
+```dockerfile
+# Stage 1: Builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+
+# Stage 2: Runtime
+FROM python:3.12-slim-bookworm
+```
+
+### 2. Critical Environment Variables
+Set these environment variables for proper UV behavior in Docker:
+
+```dockerfile
+ENV UV_LINK_MODE=copy              # Required for Docker filesystems
+ENV UV_COMPILE_BYTECODE=1          # Faster startup times
+ENV UV_PYTHON_DOWNLOADS=never      # Use system Python
+ENV UV_PYTHON=python3.12           # Specify Python version
+ENV UV_PROJECT_ENVIRONMENT=/app    # Project environment path
+ENV UV_CACHE_DIR=/tmp/uv-cache     # Cache directory
+```
+
+### 3. Layer Caching Optimization
+Structure Dockerfile for optimal layer caching:
+
+```dockerfile
+# Copy dependency files first (changes less frequently)
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies (cached if files don't change)
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+# Copy application code last (changes most frequently)
+COPY . .
+```
+
+## Dockerfile Patterns
+
+### 1. Production Multi-Stage Build
+```dockerfile
+# Stage 1: Builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+
+ENV UV_LINK_MODE=copy
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_PYTHON_DOWNLOADS=never
+
+WORKDIR /app
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+# Copy application code
+COPY . .
+
+# Stage 2: Runtime
+FROM python:3.12-slim-bookworm
+
+# Copy virtual environment from builder
+COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder /app /app
+
+# Set environment variables
+ENV PATH="/app/.venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+# Run the application
+CMD ["python", "-m", "your_app"]
+```
+
+### 2. Development Dockerfile
+```dockerfile
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+
+WORKDIR /app
+
+# Install development dependencies
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen
+
+# Copy source code
+COPY . .
+
+# Expose development port
+EXPOSE 8000
+
+# Run development server
+CMD ["uv", "run", "python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+```
+
+### 3. Distroless Security Pattern
+```dockerfile
+# Stage 1: Builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+
+ENV UV_LINK_MODE=copy
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_PYTHON_DOWNLOADS=never
+
+WORKDIR /app
+
+# Copy and install dependencies
+COPY pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+# Copy and build application
+COPY . .
+RUN uv sync --frozen --no-dev
+
+# Stage 2: Distroless runtime
+FROM gcr.io/distroless/python3-debian11
+
+# Copy virtual environment
+COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder /app /app
+
+# Set environment
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Run as non-root user
+USER 65532:65532
+
+# Run the application
+CMD ["python", "-m", "your_app"]
+```
+
+## Security Best Practices
+
+### 1. Non-Root User
+Always create and use non-root users:
+
+```dockerfile
+# Create non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
+```
+
+### 2. Minimal Base Images
+Use minimal base images for production:
+
+```dockerfile
+# Use distroless for maximum security
+FROM gcr.io/distroless/python3-debian11
+```
+
+### 3. Security Scanning
+Include security scanning in build process:
+
+```dockerfile
+# Add security scanning stage
+FROM builder AS security
+RUN uv add safety bandit
+RUN uv run safety check
+RUN uv run bandit -r src/
+```
+
+## Performance Optimization
+
+### 1. Build Cache
+Use BuildKit cache mounts for faster builds:
+
+```dockerfile
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+```
+
+### 2. Bytecode Compilation
+Enable bytecode compilation for faster startup:
+
+```dockerfile
+ENV UV_COMPILE_BYTECODE=1
+```
+
+### 3. Multi-Architecture Builds
+Support multiple architectures:
+
+```dockerfile
+FROM --platform=$BUILDPLATFORM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+```
+
+## Docker Compose Integration
+
+### 1. Development Environment
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/.venv  # Exclude venv from volume mount
+    environment:
+      - PYTHONPATH=/app
+      - UV_SYSTEM_PYTHON=1
+    command: uv run python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### 2. Production Environment
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://myapp:myapp@postgres:5432/myapp
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+```
+
+## CI/CD Integration
+
+### 1. GitHub Actions
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install UV
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Add UV to PATH
+        run: echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run tests
+        run: uv run python -m pytest tests/ --cov=src
+```
+
+### 2. Docker Build and Push
+```yaml
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+## Troubleshooting
+
+### 1. Common Issues
+- **UV_LINK_MODE Error**: Set `UV_LINK_MODE=copy`
+- **Python Download Issues**: Set `UV_PYTHON_DOWNLOADS=never`
+- **Cache Issues**: Use BuildKit cache mounts
+- **Permission Issues**: Use non-root users
+
+### 2. Debugging
+```bash
+# Build with debug output
+docker build --progress=plain --no-cache -t myapp .
+
+# Run with debug shell
+docker run -it --entrypoint /bin/bash myapp
+```
+
+## Advanced Use Cases
+
+### 1. Microservices Architecture
+```dockerfile
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+
+ENV UV_LINK_MODE=copy
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_PYTHON_DOWNLOADS=never
+
+WORKDIR /app
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+# Copy service code
+COPY src/ ./src/
+
+# Runtime stage
+FROM python:3.12-slim-bookworm
+
+COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder /app /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+USER 65532:65532
+
+CMD ["python", "-m", "src.service"]
+```
+
+### 2. Machine Learning Applications
+```dockerfile
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+
+ENV UV_LINK_MODE=copy
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_PYTHON_DOWNLOADS=never
+
+WORKDIR /app
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies including ML libraries
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+# Copy application code
+COPY . .
+
+# Runtime stage with ML libraries
+FROM python:3.12-slim-bookworm
+
+# Install system dependencies for ML
+RUN apt-get update && apt-get install -y \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder /app /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+USER 65532:65532
+
+CMD ["python", "-m", "src.ml_service"]
+```
+
+## Quality Standards
+
+### 1. Code Quality
+- Use consistent Dockerfile structure
+- Include proper error handling
+- Add health checks for production images
+- Document all environment variables
+
+### 2. Security Standards
+- Always use non-root users
+- Scan for vulnerabilities
+- Use minimal base images
+- Implement proper secrets management
+
+### 3. Performance Standards
+- Optimize layer caching
+- Use multi-stage builds
+- Enable bytecode compilation
+- Monitor build times and image sizes
+
+### 4. Documentation Standards
+- Document all Dockerfile patterns
+- Include troubleshooting guides
+- Provide clear examples
+- Maintain up-to-date best practices
+
+## Compliance Requirements
+
+### 1. Security Compliance
+- Follow OWASP container security guidelines
+- Implement proper access controls
+- Use signed base images
+- Regular security scanning
+
+### 2. Performance Compliance
+- Build times under 5 minutes
+- Image sizes under 500MB
+- Startup times under 30 seconds
+- Memory usage under 100MB
+
+### 3. Quality Compliance
+- 100% test coverage for Dockerfiles
+- Automated security scanning
+- Performance benchmarking
+- Documentation completeness
