@@ -88,13 +88,17 @@ jobs:
       - name: Check for exposed secrets
         run: |
           echo "Checking for exposed secrets..."
-          if grep -r -E "(password|secret|key|token|api_key)" . \
+          PATTERN='(password|secret|token|api[_-]?key|aws_access_key_id|aws_secret_access_key|-----BEGIN [A-Z ]+PRIVATE KEY-----)'
+          if grep -r -n -E "$PATTERN" . \
             --exclude-dir=.git \
             --exclude-dir=.github \
+            --exclude-dir=node_modules \
+            --exclude="package-lock.json" \
+            --exclude="package.json" \
             --exclude="*.md" \
             --exclude="*.yml" \
             --exclude="*.yaml"; then
-            echo "⚠️ Potential secrets found"
+            echo "⚠️ Potential secrets found - investigate above matches"
             exit 1
           else
             echo "✅ No obvious secrets found"
