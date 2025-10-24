@@ -44,11 +44,15 @@ jobs:
             --exclude-dir=.git \
             --exclude-dir=.github \
             --exclude-dir=node_modules \
+            --exclude-dir=.cache \
+            --exclude-dir=.cursor \
             --exclude="*.md" \
+            --exclude="*.mdc" \
             --exclude="*.yml" \
             --exclude="*.yaml" \
-            --exclude="package.json" \
-            --exclude="package-lock.json"; then
+            --exclude="*.json" \
+            --exclude="*.lock" \
+            --binary-files=without-match; then
             echo "⚠️ Potential secrets found"
             exit 1
           else
