@@ -5,6 +5,7 @@
 GitHub Actions is a powerful CI/CD platform that enables you to automate your software development workflows directly within GitHub. It provides a comprehensive solution for building, testing, and deploying code with built-in security, scalability, and integration capabilities.
 
 **Key Benefits:**
+
 - 🚀 **Native GitHub Integration** - Seamless integration with repositories, issues, and pull requests
 - 🔧 **Flexible Workflow Automation** - Customize workflows for any language, platform, or cloud
 - 🛡️ **Built-in Security** - Secure secrets management and environment protection
@@ -27,6 +28,7 @@ GitHub Actions is a powerful CI/CD platform that enables you to automate your so
 A **workflow** is an automated process that you define in your repository. It consists of one or more jobs and can be triggered by events, schedules, or manual dispatch.
 
 **Workflow Components:**
+
 - **Events** - What triggers the workflow
 - **Jobs** - Tasks that run in parallel or sequence
 - **Steps** - Individual commands or actions within a job
@@ -37,6 +39,7 @@ A **workflow** is an automated process that you define in your repository. It co
 Events are specific activities that trigger workflows:
 
 **Common Events:**
+
 - `push` - Code pushed to repository
 - `pull_request` - Pull request opened, updated, or closed
 - `release` - Release published
@@ -49,6 +52,7 @@ Events are specific activities that trigger workflows:
 Jobs are sets of steps that execute on the same runner:
 
 **Job Characteristics:**
+
 - Run in parallel by default
 - Can have dependencies on other jobs
 - Execute on specific runner environments
@@ -59,6 +63,7 @@ Jobs are sets of steps that execute on the same runner:
 Steps are individual tasks within a job:
 
 **Step Types:**
+
 - **Actions** - Reusable code units
 - **Commands** - Shell commands or scripts
 - **Conditional Logic** - Run steps based on conditions
@@ -68,6 +73,7 @@ Steps are individual tasks within a job:
 ### 1. Create Your First Workflow
 
 **Basic Workflow Structure:**
+
 ```yaml
 name: CI
 
@@ -103,6 +109,7 @@ Store workflow files in `.github/workflows/` directory:
 ### 3. Workflow Triggers
 
 **Event-Based Triggers:**
+
 ```yaml
 on:
   push:
@@ -115,6 +122,7 @@ on:
 ```
 
 **Schedule-Based Triggers:**
+
 ```yaml
 on:
   schedule:
@@ -122,6 +130,7 @@ on:
 ```
 
 **Manual Triggers:**
+
 ```yaml
 on:
   workflow_dispatch:
@@ -158,6 +167,7 @@ jobs:
 ### 2. Job Configuration
 
 **Job Dependencies:**
+
 ```yaml
 jobs:
   build:
@@ -182,6 +192,7 @@ jobs:
 ```
 
 **Matrix Strategy:**
+
 ```yaml
 jobs:
   test:
@@ -203,6 +214,7 @@ jobs:
 ### 3. Step Configuration
 
 **Action Steps:**
+
 ```yaml
 steps:
   - name: Checkout code
@@ -216,6 +228,7 @@ steps:
 ```
 
 **Command Steps:**
+
 ```yaml
 steps:
   - name: Install dependencies
@@ -229,6 +242,7 @@ steps:
 ```
 
 **Conditional Steps:**
+
 ```yaml
 steps:
   - name: Run on main branch
@@ -245,6 +259,7 @@ steps:
 ### 1. CI/CD Pipeline
 
 **Complete CI/CD Workflow:**
+
 ```yaml
 name: CI/CD Pipeline
 
@@ -328,6 +343,7 @@ jobs:
 ### 2. Multi-Environment Deployment
 
 **Environment-Specific Workflows:**
+
 ```yaml
 name: Deploy to Environment
 
@@ -360,6 +376,7 @@ jobs:
 ### 3. Docker Build and Push
 
 **Container Workflow:**
+
 ```yaml
 name: Docker Build and Push
 
@@ -410,6 +427,7 @@ jobs:
 ### 4. Testing Workflows
 
 **Comprehensive Testing:**
+
 ```yaml
 name: Test Suite
 
@@ -509,6 +527,7 @@ jobs:
 ### 1. Reusable Workflows
 
 **Reusable Workflow:**
+
 ```yaml
 # .github/workflows/reusable.yml
 name: Reusable Workflow
@@ -540,6 +559,7 @@ jobs:
 ```
 
 **Calling Reusable Workflow:**
+
 ```yaml
 name: Deploy Application
 
@@ -567,6 +587,7 @@ jobs:
 ### 2. Composite Actions
 
 **Composite Action:**
+
 ```yaml
 # .github/actions/setup-node/action.yml
 name: 'Setup Node.js'
@@ -595,6 +616,7 @@ runs:
 ```
 
 **Using Composite Action:**
+
 ```yaml
 name: CI
 
@@ -621,6 +643,7 @@ jobs:
 ### 3. Matrix Builds
 
 **Matrix Strategy:**
+
 ```yaml
 name: Matrix Build
 
@@ -663,6 +686,7 @@ jobs:
 ### 4. Conditional Execution
 
 **Conditional Jobs:**
+
 ```yaml
 name: Conditional Workflow
 
@@ -702,6 +726,7 @@ jobs:
 ### 5. Environment Protection
 
 **Environment Configuration:**
+
 ```yaml
 name: Deploy to Production
 
@@ -725,6 +750,7 @@ jobs:
 ### 1. Workflow Organization
 
 **File Structure:**
+
 ```
 .github/
 └── workflows/
@@ -736,6 +762,7 @@ jobs:
 ```
 
 **Naming Conventions:**
+
 ```yaml
 name: CI/CD Pipeline
 
@@ -754,6 +781,7 @@ jobs:
 ### 2. Performance Optimization
 
 **Caching Dependencies:**
+
 ```yaml
 jobs:
   test:
@@ -782,6 +810,7 @@ jobs:
 ```
 
 **Parallel Execution:**
+
 ```yaml
 jobs:
   test:
@@ -806,6 +835,7 @@ jobs:
 ### 3. Security Best Practices
 
 **Secrets Management:**
+
 ```yaml
 jobs:
   deploy:
@@ -823,6 +853,7 @@ jobs:
 ```
 
 **Dependency Security:**
+
 ```yaml
 jobs:
   security:
@@ -842,6 +873,7 @@ jobs:
 ### 4. Error Handling
 
 **Continue on Error:**
+
 ```yaml
 jobs:
   test:
@@ -861,6 +893,7 @@ jobs:
 ```
 
 **Conditional Steps:**
+
 ```yaml
 jobs:
   deploy:
@@ -882,6 +915,7 @@ jobs:
 ### Common Issues
 
 **1. Workflow Not Triggering:**
+
 ```yaml
 # Check event configuration
 on:
@@ -890,6 +924,7 @@ on:
 ```
 
 **2. Permission Errors:**
+
 ```yaml
 # Add permissions
 permissions:
@@ -899,6 +934,7 @@ permissions:
 ```
 
 **3. Cache Issues:**
+
 ```yaml
 # Clear cache
 - name: Clear cache
@@ -911,6 +947,7 @@ permissions:
 ### Debugging
 
 **Enable Debug Logging:**
+
 ```yaml
 jobs:
   debug:
@@ -925,6 +962,7 @@ jobs:
 ```
 
 **Step Debugging:**
+
 ```yaml
 steps:
   - name: Debug step
@@ -939,6 +977,7 @@ steps:
 ### 1. Multi-Repository Workflows
 
 **Cross-Repository Triggers:**
+
 ```yaml
 name: Cross-Repository Workflow
 
@@ -959,6 +998,7 @@ jobs:
 ### 2. Scheduled Workflows
 
 **Cron-Based Automation:**
+
 ```yaml
 name: Scheduled Maintenance
 
@@ -981,6 +1021,7 @@ jobs:
 ### 3. Artifact Management
 
 **Build and Store Artifacts:**
+
 ```yaml
 name: Build and Store Artifacts
 
@@ -1022,16 +1063,19 @@ jobs:
 ## Resources
 
 ### Official Documentation
+
 - **GitHub Actions Documentation**: [https://docs.github.com/en/actions](https://docs.github.com/en/actions)
 - **Workflow Syntax**: [https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - **Events that Trigger Workflows**: [https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
 
 ### Community Resources
+
 - **GitHub Actions Marketplace**: [https://github.com/marketplace?type=actions](https://github.com/marketplace?type=actions)
 - **Awesome Actions**: [https://github.com/sdras/awesome-actions](https://github.com/sdras/awesome-actions)
 - **GitHub Actions Cheat Sheet**: [https://github.com/actions/cheat-sheet](https://github.com/actions/cheat-sheet)
 
 ### Learning Resources
+
 - **GitHub Actions Learning Path**: [https://docs.github.com/en/actions/learn-github-actions](https://docs.github.com/en/actions/learn-github-actions)
 - **Best Practices**: [https://docs.github.com/en/actions/learn-github-actions/best-practices-for-github-actions](https://docs.github.com/en/actions/learn-github-actions/best-practices-for-github-actions)
 - **Security Hardening**: [https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
@@ -1041,6 +1085,7 @@ jobs:
 GitHub Actions provides a powerful, flexible, and integrated solution for CI/CD automation. By following the patterns and best practices outlined in this guide, you can create efficient, secure, and maintainable workflows that enhance your development process.
 
 **Key Takeaways:**
+
 - Start with simple workflows and gradually add complexity
 - Use caching to improve performance and reduce costs
 - Implement proper security practices with secrets and environments

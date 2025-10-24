@@ -5,6 +5,7 @@
 UV is a modern, high-performance Python package manager and installer written in Rust. It serves as a drop-in replacement for traditional Python package management tools like `pip`, offering significant improvements in speed, reliability, and dependency resolution.
 
 **Key Benefits:**
+
 - 🚀 **10-100x faster** than traditional package managers
 - 🗂️ **Comprehensive project management** with universal lockfile
 - ❇️ **Script execution** with inline dependency metadata
@@ -24,11 +25,13 @@ UV is a modern, high-performance Python package manager and installer written in
 ### Quick Installation
 
 **macOS and Linux:**
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 **Windows:**
+
 ```powershell
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
@@ -36,21 +39,25 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ### Alternative Installation Methods
 
 **Using pip:**
+
 ```bash
 pip install uv
 ```
 
 **Using pipx:**
+
 ```bash
 pipx install uv
 ```
 
 **Using Homebrew (macOS):**
+
 ```bash
 brew install uv
 ```
 
 **Using Scoop (Windows):**
+
 ```bash
 scoop install uv
 ```
@@ -363,7 +370,8 @@ uv add --extra-index-url https://pypi.org/simple/ package-name
 
 ### Common Issues
 
-**1. Installation Problems**
+#### 1. Installation Problems
+
 ```bash
 # If curl installation fails, try pip
 pip install uv
@@ -372,7 +380,8 @@ pip install uv
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-**2. Permission Issues**
+#### 2. Permission Issues
+
 ```bash
 # Make sure UV is in your PATH
 echo $PATH | grep -i uv
@@ -381,7 +390,8 @@ echo $PATH | grep -i uv
 ~/.local/bin/uv --version
 ```
 
-**3. Dependency Conflicts**
+#### 3. Dependency Conflicts
+
 ```bash
 # Clear cache and reinstall
 uv cache clean
@@ -391,7 +401,8 @@ uv sync --reinstall
 uv tree
 ```
 
-**4. Python Version Issues**
+#### 4. Python Version Issues
+
 ```bash
 # List available Python versions
 uv python list
@@ -465,6 +476,7 @@ uv add package-name
 UV represents the future of Python package management, offering unprecedented speed and comprehensive functionality. By combining the best features of pip, Poetry, virtualenv, and more into a single, fast tool, UV streamlines Python development workflows.
 
 **Key Takeaways:**
+
 - UV is 10-100x faster than traditional tools
 - Provides comprehensive project and dependency management
 - Includes built-in Python version management

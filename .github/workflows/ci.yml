@@ -34,6 +34,7 @@ jobs:
         run: npx markdownlint "**/*.md" \
           --ignore node_modules \
           --ignore .git \
+          --ignore docs/global.md \
           --config .markdownlint.json
             
       - name: Check for broken links

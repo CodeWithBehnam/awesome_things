@@ -130,7 +130,7 @@ flowchart LR
 
 ### 📚 Documentation
 
-- **[Cursor IDE .cursor Folder Guide](docs/cursor-folder-guide.md)** - Complete guide to customizing Cursor IDE with rules and commands
+- **[Cursor IDE .cursor Folder Guide](docs/cursor-folder-guide.md)** - Complete guide to customising Cursor IDE with rules and commands
 - **[UV Python Package Manager Guide](docs/uv-python-guide.md)** - Comprehensive guide to using UV for Python development
 - **[Docker UV Guide](docs/docker-uv-guide.md)** - Docker containerisation with UV Python package manager
 - **[GitHub Actions CI/CD Guide](docs/github-actions-cicd-guide.md)** - Continuous integration and deployment workflows
@@ -314,18 +314,21 @@ uv sync
 ## 🎯 Use Cases
 
 ### For Developers
+
 - **Streamline development workflows** with custom Cursor commands
-- **Modernize Python development** with UV package manager
+- **Modernise Python development** with UV package manager
 - **Automate documentation** generation and updates
-- **Standardize team practices** with shared rules and commands
+- **Standardise team practices** with shared rules and commands
 
 ### For Teams
+
 - **Consistent development environments** across team members
 - **Automated code quality** checks and standards
 - **Comprehensive documentation** for onboarding and reference
 - **Best practices** for modern Python development
 
 ### For Projects
+
 - **Quick project setup** with UV and Cursor integration
 - **Comprehensive documentation** generation and maintenance
 - **Quality assurance** with automated checks and standards

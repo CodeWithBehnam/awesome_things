@@ -5,6 +5,7 @@
 Combining Docker with UV Python package manager creates a powerful, fast, and efficient containerization solution for Python applications. UV's 10-100x speed improvements over traditional package managers, combined with Docker's containerization benefits, results in significantly faster builds, smaller images, and more reliable deployments.
 
 **Key Benefits:**
+
 - 🚀 **10-100x faster** dependency resolution and installation
 - 📦 **Smaller Docker images** with multi-stage builds
 - 🔒 **Enhanced security** with distroless and minimal base images
@@ -24,16 +25,19 @@ Combining Docker with UV Python package manager creates a powerful, fast, and ef
 ### Install UV Locally
 
 **macOS and Linux:**
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 **Windows:**
+
 ```powershell
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 **Verify Installation:**
+
 ```bash
 uv --version
 ```
@@ -41,11 +45,13 @@ uv --version
 ### Docker Setup
 
 **Install Docker:**
+
 - **macOS**: Download Docker Desktop from [docker.com](https://docker.com)
 - **Linux**: Follow [Docker installation guide](https://docs.docker.com/engine/install/)
 - **Windows**: Download Docker Desktop from [docker.com](https://docker.com)
 
 **Verify Docker Installation:**
+
 ```bash
 docker --version
 docker-compose --version
@@ -58,11 +64,13 @@ docker-compose --version
 UV provides both distroless and derived Docker images:
 
 **Distroless Images (Binary Only):**
+
 - `ghcr.io/astral-sh/uv:latest`
 - `ghcr.io/astral-sh/uv:0.9.5` (specific version)
 - `ghcr.io/astral-sh/uv:0.8` (latest patch version)
 
 **Derived Images (OS + UV):**
+
 - **Alpine-based**: `ghcr.io/astral-sh/uv:alpine`, `ghcr.io/astral-sh/uv:alpine3.22`
 - **Debian-based**: `ghcr.io/astral-sh/uv:debian-slim`, `ghcr.io/astral-sh/uv:bookworm-slim`
 - **Python-based**: `ghcr.io/astral-sh/uv:python3.12-bookworm-slim`
@@ -207,6 +215,7 @@ CMD ["python", "-m", "your_app"]
 ### Pattern 4: Development and Production Separation
 
 **Development Dockerfile:**
+
 ```dockerfile
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
@@ -227,6 +236,7 @@ CMD ["uv", "run", "python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "-
 ```
 
 **Production Dockerfile:**
+
 ```dockerfile
 # Builder stage
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
@@ -278,6 +288,7 @@ CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--
 ### Pattern 5: Testing and Security Scanning
 
 **Comprehensive Dockerfile with Testing:**
+
 ```dockerfile
 # Stage 1: Dependencies
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS deps
@@ -355,6 +366,7 @@ CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "ma
 ### Development Environment
 
 **docker-compose.yml:**
+
 ```yaml
 version: '3.8'
 
@@ -396,6 +408,7 @@ volumes:
 ### Production Environment
 
 **docker-compose.prod.yml:**
+
 ```yaml
 version: '3.8'
 
@@ -448,6 +461,7 @@ volumes:
 ### GitHub Actions Workflow
 
 **.github/workflows/ci.yml:**
+
 ```yaml
 name: CI/CD Pipeline
 
@@ -533,6 +547,7 @@ jobs:
 ### GitLab CI Pipeline
 
 **.gitlab-ci.yml:**
+
 ```yaml
 stages:
   - test
@@ -580,6 +595,7 @@ deploy:
 ### 1. Dockerfile Optimization
 
 **Layer Caching:**
+
 ```dockerfile
 # Copy dependency files first (changes less frequently)
 COPY pyproject.toml uv.lock ./
@@ -593,6 +609,7 @@ COPY . .
 ```
 
 **Multi-Architecture Builds:**
+
 ```dockerfile
 # Use buildx for multi-arch builds
 FROM --platform=$BUILDPLATFORM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
@@ -601,6 +618,7 @@ FROM --platform=$BUILDPLATFORM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS 
 ### 2. Security Best Practices
 
 **Non-Root User:**
+
 ```dockerfile
 # Create non-root user
 RUN useradd -m appuser && chown -R appuser:appuser /app
@@ -608,12 +626,14 @@ USER appuser
 ```
 
 **Minimal Base Images:**
+
 ```dockerfile
 # Use distroless for maximum security
 FROM gcr.io/distroless/python3-debian11
 ```
 
 **Security Scanning:**
+
 ```dockerfile
 # Add security scanning stage
 FROM builder AS security
@@ -625,6 +645,7 @@ RUN uv run bandit -r src/
 ### 3. Performance Optimization
 
 **Build Cache:**
+
 ```dockerfile
 # Use BuildKit cache mounts
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -632,12 +653,14 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 ```
 
 **Bytecode Compilation:**
+
 ```dockerfile
 # Enable bytecode compilation for faster startup
 ENV UV_COMPILE_BYTECODE=1
 ```
 
 **Multi-Stage Builds:**
+
 ```dockerfile
 # Separate build and runtime stages
 FROM builder AS production
@@ -647,12 +670,14 @@ FROM builder AS production
 ### 4. Development Workflow
 
 **Hot Reload:**
+
 ```dockerfile
 # Development with hot reload
 CMD ["uv", "run", "python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 ```
 
 **Volume Mounts:**
+
 ```yaml
 # docker-compose.yml
 volumes:
@@ -665,18 +690,21 @@ volumes:
 ### Common Issues
 
 **1. UV_LINK_MODE Error:**
+
 ```dockerfile
 # Solution: Set UV_LINK_MODE=copy
 ENV UV_LINK_MODE=copy
 ```
 
 **2. Python Download Issues:**
+
 ```dockerfile
 # Solution: Disable Python downloads
 ENV UV_PYTHON_DOWNLOADS=never
 ```
 
 **3. Cache Issues:**
+
 ```dockerfile
 # Solution: Use BuildKit cache mounts
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -684,6 +712,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 ```
 
 **4. Permission Issues:**
+
 ```dockerfile
 # Solution: Use non-root user
 RUN useradd -m appuser && chown -R appuser:appuser /app
@@ -693,6 +722,7 @@ USER appuser
 ### Debugging
 
 **Build Debugging:**
+
 ```bash
 # Build with debug output
 docker build --progress=plain --no-cache -t myapp .
@@ -702,6 +732,7 @@ docker run -it --entrypoint /bin/bash myapp
 ```
 
 **Runtime Debugging:**
+
 ```bash
 # Check environment variables
 docker run --rm myapp env
@@ -715,6 +746,7 @@ docker run --rm myapp python -c "import sys; print(sys.path)"
 ### 1. Microservices Architecture
 
 **Service Dockerfile:**
+
 ```dockerfile
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
@@ -753,6 +785,7 @@ CMD ["python", "-m", "src.service"]
 ### 2. Machine Learning Applications
 
 **ML Dockerfile:**
+
 ```dockerfile
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
@@ -796,6 +829,7 @@ CMD ["python", "-m", "src.ml_service"]
 ### 3. Web Applications with Static Assets
 
 **Web App Dockerfile:**
+
 ```dockerfile
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
@@ -857,16 +891,19 @@ CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "ma
 ## Resources
 
 ### Official Documentation
+
 - **UV Documentation**: [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 - **UV Docker Guide**: [https://docs.astral.sh/uv/guides/integration/docker/](https://docs.astral.sh/uv/guides/integration/docker/)
 - **Docker Documentation**: [https://docs.docker.com/](https://docs.docker.com/)
 
 ### Community Resources
+
 - **UV Docker Example**: [https://github.com/astral-sh/uv-docker-example](https://github.com/astral-sh/uv-docker-example)
 - **UV GitHub Repository**: [https://github.com/astral-sh/uv](https://github.com/astral-sh/uv)
 - **Docker Hub UV Images**: [https://hub.docker.com/r/astral/uv](https://hub.docker.com/r/astral/uv)
 
 ### Learning Resources
+
 - **UV Best Practices**: [https://docs.astral.sh/uv/best-practices/](https://docs.astral.sh/uv/best-practices/)
 - **Docker Best Practices**: [https://docs.docker.com/develop/dev-best-practices/](https://docs.docker.com/develop/dev-best-practices/)
 - **Python in Production**: [https://docs.astral.sh/uv/guides/production/](https://docs.astral.sh/uv/guides/production/)
@@ -876,18 +913,21 @@ CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "ma
 Combining Docker with UV Python package manager creates a powerful, efficient, and modern containerization solution. The key benefits include:
 
 **Performance Gains:**
+
 - 10-100x faster dependency resolution
 - 3-4x faster build times
 - Improved layer caching efficiency
 - Smaller final images
 
 **Development Experience:**
+
 - Faster local development
 - Better reproducibility
 - Simplified dependency management
 - Enhanced security
 
 **Production Benefits:**
+
 - Faster deployments
 - Reduced resource usage
 - Better scalability
@@ -896,6 +936,7 @@ Combining Docker with UV Python package manager creates a powerful, efficient, a
 By following the patterns and best practices outlined in this guide, you can create efficient, secure, and maintainable Docker containers that leverage UV's speed and reliability for optimal Python application deployment.
 
 **Key Takeaways:**
+
 - Use multi-stage builds for optimal image size
 - Set proper environment variables for Docker compatibility
 - Leverage BuildKit cache mounts for faster builds
