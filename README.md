@@ -110,12 +110,14 @@ flowchart LR
 - **Cursor IDE Integration** - AI-powered development with custom rules and commands
 - **UV Python Package Manager** - 10-100x faster than traditional tools
 - **MCP Tool Integration** - Automated research and documentation generation
+- **GitHub Copilot Integration** - Repository-specific instructions and chat modes
 - **Comprehensive Documentation** - Complete guides and best practices
 
 ### 📚 Documentation System
 
 - **Automated Generation** - AI-powered documentation creation using Ref MCP and Exa MCP
 - **Comprehensive Guides** - Step-by-step tutorials for modern development workflows
+- **GitHub Integration** - Custom instructions, chat modes, and prompts
 - **Best Practices** - Industry-standard patterns and conventions
 - **Visual Architecture** - Mermaid diagrams for clear project understanding
 
@@ -123,18 +125,39 @@ flowchart LR
 
 - **Code Quality** - Black, Ruff, MyPy, and pytest integration
 - **Project Templates** - Ready-to-use configurations for various project types
-- **Workflow Automation** - Streamlined development processes
+- **Workflow Automation** - Streamlined development processes with 20+ custom commands
 - **Team Collaboration** - Shared rules and standards for consistent development
+- **Security** - Automated security auditing and secrets management
 
 ## 🚀 What's Inside
 
 ### 📚 Documentation
 
+#### **Core Development Guides**
+
 - **[Cursor IDE .cursor Folder Guide](docs/cursor-folder-guide.md)** - Complete guide to customising Cursor IDE with rules and commands
+- **[Cursor Commands Guide](docs/cursor-commands-guide.md)** - Master your AI-powered development workflow
+- **[Cursor Commands Feature Guide](docs/cursor-commands-feature-guide.md)** - Comprehensive feature overview
 - **[UV Python Package Manager Guide](docs/uv-python-guide.md)** - Comprehensive guide to using UV for Python development
 - **[Docker UV Guide](docs/docker-uv-guide.md)** - Docker containerisation with UV Python package manager
-- **[GitHub Actions CI/CD Guide](docs/github-actions-cicd-guide.md)** - Continuous integration and deployment workflows
+
+#### **GitHub Integration Guides**
+
 - **[GitHub Copilot Guide](docs/github-copilot-guide.md)** - AI-powered coding assistance
+- **[GitHub Instructions Guide](docs/github-instructions-guide.md)** - Repository custom instructions
+- **[GitHub Chatmodes Guide](docs/github-chatmodes-guide.md)** - Custom chat modes configuration
+- **[GitHub Prompts Guide](docs/github-prompts-guide.md)** - Prompts and custom instructions
+
+#### **CI/CD and Automation**
+
+- **[GitHub Actions CI/CD Guide](docs/github-actions-cicd-guide.md)** - Continuous integration and deployment workflows
+- **[GitHub Actions Secrets Guide](docs/github-actions-secrets-guide.md)** - Secure secrets management
+- **[GitHub Actions Secrets Fix Summary](docs/github-actions-secrets-fix-summary.md)** - Security fixes and improvements
+- **[Workflow Syntax Fix Summary](docs/workflow-syntax-fix-summary.md)** - Workflow syntax improvements
+
+#### **Quick Reference**
+
+- **[Cursor Commands Summary](docs/cursor-commands-summary.md)** - Quick reference for Cursor commands
 
 ### 🛠️ Cursor IDE Configuration
 
@@ -158,21 +181,49 @@ This repository includes a complete Cursor IDE setup with custom rules and comma
 
 ```text
 awesome_things/
-├── docs/                           # Comprehensive documentation
-│   ├── cursor-folder-guide.md     # Cursor IDE configuration guide
-│   └── uv-python-guide.md         # UV Python package manager guide
-├── .cursor/                        # Cursor IDE configuration
-│   ├── rules/                      # Custom development rules
-│   │   ├── global.mdc             # Global project standards
-│   │   └── uv-python.mdc          # UV Python development rules
-│   └── commands/                   # Custom slash commands
-│       ├── generate-docs.md       # Documentation generation
-│       ├── update-docs.md         # Documentation updates
-│       ├── create-rules-commands.md # Rule and command creation
-│       ├── setup-uv-project.md    # Project initialization
-│       └── uv-development-workflow.md # Development workflows
-├── .gitignore                     # Git ignore configuration
-└── README.md                      # This file
+├── docs/                                    # Comprehensive documentation
+│   ├── cursor-folder-guide.md              # Cursor IDE configuration guide
+│   ├── cursor-commands-guide.md            # Master Cursor commands guide
+│   ├── cursor-commands-feature-guide.md    # Cursor commands feature overview
+│   ├── cursor-commands-summary.md          # Quick reference guide
+│   ├── uv-python-guide.md                  # UV Python package manager guide
+│   ├── docker-uv-guide.md                  # Docker with UV integration
+│   ├── github-copilot-guide.md             # GitHub Copilot configuration
+│   ├── github-instructions-guide.md        # Repository custom instructions
+│   ├── github-chatmodes-guide.md           # Custom chat modes
+│   ├── github-prompts-guide.md             # Prompts and instructions
+│   ├── github-actions-cicd-guide.md        # CI/CD workflows
+│   ├── github-actions-secrets-guide.md     # Secrets management
+│   ├── github-actions-secrets-fix-summary.md # Security fixes
+│   └── workflow-syntax-fix-summary.md      # Workflow improvements
+├── .cursor/                                 # Cursor IDE configuration
+│   ├── rules/                               # Custom development rules
+│   │   ├── global.mdc                      # Global project standards
+│   │   ├── uv-python.mdc                   # UV Python development rules
+│   │   └── docker-uv-python.mdc            # Docker with UV standards
+│   └── commands/                            # Custom slash commands
+│       ├── README.md                       # Commands overview
+│       ├── update-readme.md                # README update command
+│       ├── generate-docs.md                # Documentation generation
+│       ├── update-docs.md                  # Documentation updates
+│       ├── create-rules-commands.md        # Rule and command creation
+│       ├── setup-uv-project.md             # Project initialization
+│       ├── setup-docker-uv-project.md      # Docker project setup
+│       ├── uv-development-workflow.md      # Development workflows
+│       ├── docker-uv-workflow.md           # Docker workflows
+│       ├── code-review.md                  # Code review automation
+│       ├── write-tests.md                  # Test generation
+│       ├── fix-bugs.md                     # Bug fixing
+│       ├── refactor-code.md                # Code refactoring
+│       ├── setup-new-feature.md            # Feature implementation
+│       ├── optimise-performance.md         # Performance optimization
+│       ├── security-audit.md               # Security auditing
+│       ├── add-documentation.md            # Documentation addition
+│       ├── create-pr.md                    # Pull request creation
+│       ├── debug-issue.md                  # Issue debugging
+│       └── onboard-developer.md            # Developer onboarding
+├── .gitignore                              # Git ignore configuration
+└── README.md                               # This file
 ```
 
 ## 🚀 Quick Start
@@ -202,6 +253,50 @@ source ~/.bashrc  # or ~/.zshrc
 ```bash
 git clone https://github.com/CodeWithBehnam/awesome_things.git
 cd awesome_things
+```
+
+#### 3. Configure GitHub Copilot (Optional)
+
+```bash
+# Create repository custom instructions
+mkdir -p .github
+cat > .github/copilot-instructions.md << 'EOF'
+# Repository Custom Instructions
+
+This repository uses UV Python package manager and follows modern development practices.
+
+## Key Technologies
+- UV Python package manager
+- Docker containerisation
+- Cursor IDE with custom rules
+- GitHub Actions for CI/CD
+
+## Coding Standards
+- Use UV for all Python package management
+- Follow PEP 8 with Black formatting
+- Use type hints with MyPy
+- Write comprehensive tests with pytest
+EOF
+
+# Create custom chat modes
+mkdir -p .github/chatmodes
+cat > .github/chatmodes/security-reviewer.md << 'EOF'
+# Security Reviewer Chat Mode
+
+## Persona
+You are a security expert reviewing code for vulnerabilities and best practices.
+
+## Tools
+- Security analysis tools
+- Code review capabilities
+- Vulnerability scanning
+
+## Instructions
+- Focus on security implications
+- Check for common vulnerabilities
+- Recommend security best practices
+- Review secrets management
+EOF
 ```
 
 ### Using Cursor IDE Commands
@@ -308,6 +403,9 @@ uv sync
 - **Cursor IDE** - AI-powered code editor with custom rules and commands
 - **UV Python** - Modern Python package manager written in Rust
 - **MCP Tools** - Ref MCP and Exa MCP for automated research
+- **GitHub Copilot** - AI-powered coding assistance with custom instructions
+- **GitHub Actions** - CI/CD workflows with secure secrets management
+- **Docker** - Containerisation with UV Python integration
 - **Python Development** - Web apps, APIs, data science, CLI tools
 - **Code Quality** - Black, Ruff, MyPy, pytest, pre-commit hooks
 
@@ -324,8 +422,11 @@ uv sync
 
 - **Consistent development environments** across team members
 - **Automated code quality** checks and standards
+- **GitHub Copilot customisation** with repository-specific instructions
+- **Custom chat modes** for different development roles
 - **Comprehensive documentation** for onboarding and reference
 - **Best practices** for modern Python development
+- **Secure CI/CD** with proper secrets management
 
 ### For Projects
 
@@ -363,6 +464,23 @@ uv sync --reinstall
 # Clear UV cache
 uv cache clean
 ```
+
+#### GitHub Copilot Issues
+
+1. **Custom Instructions Not Working**
+   - Ensure `.github/copilot-instructions.md` exists
+   - Check file permissions and syntax
+   - Restart VS Code/Cursor IDE
+
+2. **Chat Modes Not Available**
+   - Verify VS Code version (v1.101+)
+   - Check `.github/chatmodes/` directory structure
+   - Ensure proper YAML syntax in chat mode files
+
+3. **Repository Context Issues**
+   - Clear Copilot cache: `Ctrl/Cmd + Shift + P` → "GitHub Copilot: Clear Cache"
+   - Restart the IDE
+   - Check repository permissions
 
 ### Getting Help
 
@@ -433,6 +551,8 @@ This project is open source and available under the [MIT License](LICENSE).
 - **Cursor IDE**: [https://cursor.com](https://cursor.com)
 - **UV Python**: [https://docs.astral.sh/uv/](https://docs.astral.sh/uv/)
 - **MCP Tools**: [https://docs.ref.tools/](https://docs.ref.tools/)
+- **GitHub Copilot**: [https://docs.github.com/en/copilot/](https://docs.github.com/en/copilot/)
+- **GitHub Actions**: [https://docs.github.com/en/actions](https://docs.github.com/en/actions)
 
 ---
 
