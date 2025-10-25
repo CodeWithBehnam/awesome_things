@@ -2,15 +2,16 @@
 
 ## Project Overview
 
-This repository contains comprehensive guides and documentation for modern development tools and practices. The project focuses on providing high-quality, production-ready documentation for essential development workflows, with particular emphasis on Python development using UV package manager and Docker containerization.
+This repository contains comprehensive guides and documentation for modern development tools and practices. The project focuses on providing high-quality, production-ready documentation for essential development workflows, with particular emphasis on Python development using UV package manager, Docker containerisation, prompt engineering excellence, and automation playbooks that leverage Perplexity research and n8n orchestration.
 
 ## Technology Stack
 
 - **Documentation**: Markdown with comprehensive guides and examples
 - **Python Development**: UV package manager for fast dependency management
-- **Containerization**: Docker with multi-stage builds and UV integration
+- **Containerisation**: Docker with multi-stage builds and UV integration
 - **CI/CD**: GitHub Actions with automated testing and deployment
 - **Development Tools**: Modern Python tooling with UV, Docker, and best practices
+- **Prompt Engineering & Automation**: Perplexity research workflows, reusable prompt templates, and n8n workflow orchestration
 
 ## Repository Structure
 
@@ -103,6 +104,22 @@ awesome_things/
 - **Docker**: Use modern Docker patterns with UV integration
 - **GitHub Features**: Leverage GitHub Copilot, instructions, and chatmodes
 - **CI/CD**: Implement automated testing and deployment pipelines
+- **Prompt Engineering**: Apply repository personas, templates, and reasoning scaffolds so AI outputs follow our standards
+- **Research**: Use multi-source validation with Perplexity per `docs/perplexity-search-optimisation-guide.md` to keep content current
+
+## Research & Intelligence Workflow
+
+1. **Define Scope**: Capture objectives, constraints, deliverables, and success metrics before drafting content or code.
+2. **Source Triangulation**: Consult at least two authoritative sources—official docs, RFCs, internal guides—and log the prompts/queries used.
+3. **Evidence Journaling**: Record citations, insights, and open questions directly in your working notes or pull request descriptions to keep work auditable.
+4. **Insight Validation**: Cross-check guidance against UV, Docker, GitHub, and security standards; flag deprecated patterns with modern replacements.
+5. **Knowledge Transfer**: Link to supporting guides (UV, Docker, GitHub, prompt, n8n) and describe the recommended next verification step when uncertainties remain.
+
+### Research Tooling
+
+- **Perplexity Search Optimisation** (`docs/perplexity-search-optimisation-guide.md`): Structure effective queries, evaluate citations, and capture research metadata.
+- **Prompt Generation Best Practices** (`docs/prompt-generation-best-practices-guide.md`): Design personas, specify outputs, and incorporate chain-of-thought scaffolding.
+- **Automation Hooks** (`docs/n8n-workflow-best-practices-guide.md`): Convert repeatable research or validation flows into versioned n8n workflows with secrets isolation.
 
 ## Security and Performance
 
@@ -121,6 +138,20 @@ awesome_things/
 - Implement proper caching strategies
 - Optimise layer caching for faster builds
 - Use bytecode compilation for faster startup times
+
+## Prompt Engineering Standards
+
+- **Persona Precision**: Define the assistant’s role, expertise, and tone so responses align with project expectations.
+- **Structured Output**: Specify headings, bullet styles, fenced code, and line references to minimise editing.
+- **Reasoning Transparency**: Request step-by-step explanations or validation checklists for complex tasks.
+- **Iterative Refinement**: Capture prompt revisions, note what improved, and upstream reusable templates to `.cursor/commands` or docs.
+
+## Automation & Workflow Integration
+
+- **n8n Alignment**: Follow `docs/n8n-workflow-best-practices-guide.md` for idempotent nodes, encrypted credentials, observability, and rollback plans.
+- **UV & Docker Awareness**: Ensure automation triggers respect UV-managed dependencies and Docker build expectations (caching, non-root users, health checks).
+- **Traceability**: Version workflow definitions, document required environment variables, and link each automation to its source documentation or instruction set.
+- **Interoperable Outputs**: Prefer JSON or Markdown so workflow artefacts feed directly into docs, GitHub Actions, or Copilot chat contexts.
 
 ## Quality Standards
 
@@ -212,17 +243,27 @@ awesome_things/
 
 ### Official Documentation
 
-- **UV Documentation**: https://docs.astral.sh/uv/
-- **Docker Documentation**: https://docs.docker.com/
-- **GitHub Copilot**: https://docs.github.com/en/copilot/
-- **GitHub Actions**: https://docs.github.com/en/actions
+- **UV Documentation**: <https://docs.astral.sh/uv/>
+- **Docker Documentation**: <https://docs.docker.com/>
+- **GitHub Copilot**: <https://docs.github.com/en/copilot/>
+- **GitHub Actions**: <https://docs.github.com/en/actions>
 
 ### Community Resources
 
-- **UV GitHub**: https://github.com/astral-sh/uv
-- **Docker Hub**: https://hub.docker.com/
-- **GitHub Awesome**: https://github.com/github/awesome-copilot
+- **UV GitHub**: <https://github.com/astral-sh/uv>
+- **Docker Hub**: <https://hub.docker.com/>
+- **GitHub Awesome**: <https://github.com/github/awesome-copilot>
 - **Best Practices**: Industry standards and modern conventions
+
+### Internal Repository Guides
+
+- `docs/uv-python-guide.md`: UV project setup, dependency management, tooling standards
+- `docs/docker-uv-guide.md`: Multi-stage Docker builds, UV integration, caching, and security guardrails
+- `docs/github-instructions-guide.md` & `docs/github-chatmodes-guide.md`: GitHub custom instructions, chat modes, and prompt governance
+- `docs/github-actions-cicd-guide.md` & `docs/github-actions-secrets-guide.md`: CI/CD workflows, secrets hygiene, and automation guardrails
+- `docs/prompt-generation-best-practices-guide.md`: Prompt templates, reasoning scaffolds, and validation techniques
+- `docs/perplexity-search-optimisation-guide.md`: Research flows, search heuristics, and citation expectations
+- `docs/n8n-workflow-best-practices-guide.md`: Automation architecture, reliability engineering, and operations checklists
 
 ---
 
