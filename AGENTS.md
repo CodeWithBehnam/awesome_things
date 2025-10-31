@@ -45,6 +45,22 @@ This repository provides production-ready documentation for essential developmen
 - **CI/CD**: GitHub Actions with automated testing and deployment
 - **Development Tools**: Modern Python tooling with UV, Docker, and best practices
 
+## Soniox Speech Platform Focus
+
+### Coverage Goals
+
+- **End-to-end flows**: Capture Soniox REST and WebSocket lifecycles (file uploads, transcription jobs, streaming sessions, translation) with precise request/response examples aligned to the current API surface.[[Soniox API Reference](https://soniox.com/docs/stt/api-reference)]
+- **Security posture**: Detail temporary key issuance, scoped credentials, webhook hardening, and data retention rules so no guide ever recommends exposing long-lived secrets.[[Soniox Auth API](https://soniox.com/docs/stt/api-reference/auth/create_temporary_api_key)]
+- **Performance & resilience**: Describe batching strategies, streaming backpressure handling, and observability hooks (request IDs, timing metrics) that match production-grade expectations set out in `docs/soniox-api-integration-guide.md`.
+- **Feature depth**: Showcase advanced capabilities—translation modes, diarisation, context injection, SDK usage—following the structure already established in `docs/soniox-speech-recognition-guide.md`.
+
+### Implementation Guardrails
+
+1. **Source triangulation**: Treat `docs/soniox-api-integration-guide.md`, `docs/soniox-speech-recognition-guide.md`, and the Soniox reference docs as the single source of truth; flag any discrepancies so we can refresh both internal guides and citations together.
+2. **Tested artefacts**: Provide runnable samples (preferably Python + UV, plus curl snippets) that exercise both asynchronous and streaming flows, including translation toggles and error paths, before publishing them inside other docs.
+3. **Key management**: Always instruct users to mint temporary API keys with tight TTLs, annotate `client_reference_id`, and encrypt webhook secrets; never log or embed raw secrets in code or docs.[[Soniox Auth API](https://soniox.com/docs/stt/api-reference/auth/create_temporary_api_key)]
+4. **Operational clarity**: Include troubleshooting matrices covering common API error codes (400/401/402/408/429/5xx), retry policies, and alerting hooks so downstream teams can operationalise guidance without guesswork.
+
 ## Your Responsibilities
 
 ### Documentation Creation
@@ -258,6 +274,8 @@ Use `docs/n8n-workflow-best-practices-guide.md` to design, document, and maintai
 - `docs/prompt-generation-best-practices-guide.md`: Prompt templates, reasoning scaffolds, and output validation techniques
 - `docs/perplexity-search-optimisation-guide.md`: Research flows, search heuristics, and citation expectations
 - `docs/n8n-workflow-best-practices-guide.md`: Automation architecture, reliability engineering, and operations checklists
+- `docs/soniox-speech-recognition-guide.md`: Comprehensive Soniox platform overview spanning models, translation, and real-time features
+- `docs/soniox-api-integration-guide.md`: Production-ready REST/WebSocket integration patterns with security, translation, and observability guardrails
 
 ## Success Criteria
 
